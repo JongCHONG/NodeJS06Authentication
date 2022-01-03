@@ -3,48 +3,43 @@ import React, { useState } from 'react'
 import { useFormik } from 'formik'
 
 const Login = () => {
-  const [username, setUsername] = useState()
-  const [password, setPassword] = useState()
 
   const formik = useFormik({
     initialValues: {
-      username,
-      password
+      username: "",
+      password: ""
     },
     onSubmit: values => {
+
+      const User = {
+        ...values
+      }
       fetch('http://localhost:5000/auth/login',{
         method: "post",
         headers: {
           "Content-Type": "application/json"
         },
         credentials:'include',
-        body: JSON.stringify(values)
+        body: JSON.stringify(User)
       })
         .then(response => response.json())
         .then(data => console.log(data))
     }
   })
-
-  const handleUsernameChange = e => {
-    setUsername(e.target.value)
-  }
-  const handlePasswordChange = e => {
-    setPassword(e.target.value)
-  }
   
-  // console.log(username, password)
+  console.log(formik.values)
   return (
     <div>
       <h1>Login</h1>
       <form onSubmit={formik.handleSubmit}>
         <div className="mb-3">
-          <label className="form-label">Login</label>
+          <label className="form-label">Username</label>
           <input 
             type="text" 
             className="form-control" 
             id="username"
             name="username"
-            onChange={handleUsernameChange}
+            onChange={formik.handleChange}
             value={formik.values.username}
           />
         </div>
@@ -55,7 +50,7 @@ const Login = () => {
             className="form-control" 
             id="password"
             name="password"
-            onChange={handlePasswordChange}
+            onChange={formik.handleChange}
             value={formik.values.password}
           />
         </div>
