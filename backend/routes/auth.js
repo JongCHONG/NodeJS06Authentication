@@ -1,8 +1,8 @@
 const express = require("express")
 const app = express()
-const passport = require("../../config/passport")
+const passport = require("../config/passport")
 
-app.post('/auth/login', passport.authenticate("local"), (req, res) => {
+app.post('/login', passport.authenticate("local"), (req, res) => {
   if (req.user) {
     req.logIn(req.user, (err) => {
       if (err) {
