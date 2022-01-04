@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 const Admin = () => {
-  const [users, setUsers] = useState("")
+  const [users, setUsers] = useState()
 
   useEffect(() => {
     fetch('http://localhost:5000/admin', {
@@ -11,13 +11,15 @@ const Admin = () => {
       .then(data => setUsers(data))
   },[])
 
-  // console.log(users)
+  if (!users) {
+    return <p>Chargement...</p>
+  }
+  
+  console.log(users)
   return (
     <div>
       <h1>Admin</h1>
-      {users && 
-        users.map(element => element.username)
-      }
+      {users.map(element => <p key={element.id}>{element.username}</p>)}
     </div>
   )
 }

@@ -13,7 +13,7 @@ const existingUser = (req, res, next) => {
   const existingUser = users.find(element => element.username === username || element.email === email)
 
   if (existingUser) {
-    res.status(404).send("Existing User")
+    res.status(406).json({error: "Existing User"})
   } else {
     next()
   }
