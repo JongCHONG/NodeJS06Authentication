@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { useFormik } from 'formik'
 
 const Login = () => {
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   const [error, setError] = useState(null)
 
   const formik = useFormik({
@@ -25,19 +25,22 @@ const Login = () => {
         credentials:'include',
         body: JSON.stringify(User)
       })
-        .then(response => response.json())
+        .then(response => {
+          if (response.status >= 400) {
+            throw response.statusText //si error throw pour catch en bas
+          } else {
+            return response.json()
+          }
+        })
         .then(
           data => {
             console.log(data)
-            setError("")
-          },
-          err => {
-            setError(err)
+            navigate('/admin')
           }
         )
-        // .then(
-        //   // () => navigate('/admin')
-        // ) 
+        .catch(
+          err => setError(err)
+        )
     }
   })
   

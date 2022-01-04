@@ -4,7 +4,9 @@ const Admin = () => {
   const [users, setUsers] = useState()
 
   useEffect(() => {
-    fetch('http://localhost:5000/admin')
+    fetch('http://localhost:5000/admin', {
+      credentials:'include'
+    })
       .then(response => response.json())
       .then(data => console.log(data))
   },[])
