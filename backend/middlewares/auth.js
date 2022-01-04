@@ -1,6 +1,7 @@
 const users = require("../users.json")
 
 const verifyUser = (req, res, next) => {
+  console.log(req.user);
   if (!req.user) { 
     res.status(401).json({error: "Unauthorized"})
   } else {

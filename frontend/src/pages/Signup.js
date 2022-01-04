@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-
 import { useFormik } from 'formik'
+import * as Yup from 'yup'
 
 const Signup = () => {
   const navigate = useNavigate()
@@ -12,6 +12,7 @@ const Signup = () => {
     initialValues: {
       username: "",
       password: "",
+      passwordConfirmation: "",
       email: "",
       age: ""
     },
@@ -61,10 +62,28 @@ const Signup = () => {
         .catch(
           err => setError(err)
         )
-    }
+    },
+    validationSchema: Yup.object().shape({
+			username: Yup.string()
+        .min(5, "Username trop court")
+        .required("Username est requis"),
+			email: Yup.string()
+        .min(5, "Email trop court")
+				.email("Email invalid")
+        .required("Email est requis"),
+      password: Yup.string()
+        .min(5, "Password trop court")
+        .required("Password est requis"),
+      passwordConfirmation: Yup.string()
+        .oneOf([Yup.ref('password'), null], 'Passwords must match')
+        .required("Password est requis"),
+      age: Yup.string()
+        .required("Age est requis")
+    }),
+		validateOnChange: false
   })
 
-  // console.log(formik.values)
+  console.log(formik.values)
   return (
     <div>
       <h1>Sign Up</h1>
@@ -79,7 +98,8 @@ const Signup = () => {
             name="username"
             onChange={formik.handleChange}
             value={formik.values.username}
-          />
+            />
+          {formik.errors.username && <p>{formik.errors.username}</p>}
         </div>
         <div className="mb-3">
           <label className="form-label">Email address</label>
@@ -91,6 +111,7 @@ const Signup = () => {
             onChange={formik.handleChange}
             value={formik.values.email}
           />
+          {formik.errors.email && <p>{formik.errors.email}</p>}
         </div>
         <div className="mb-3">
           <label className="form-label">Password</label>
@@ -101,7 +122,20 @@ const Signup = () => {
             name="password"
             onChange={formik.handleChange}
             value={formik.values.password}
+            />
+          {formik.errors.password && <p>{formik.errors.password}</p>}
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Repeat Password</label>
+          <input 
+            type="password" 
+            className="form-control" 
+            id="passwordConfirmation"
+            name="passwordConfirmation"
+            onChange={formik.handleChange}
+            value={formik.values.passwordConfirmation}
           />
+          {formik.errors.passwordConfirmation && <p>{formik.errors.passwordConfirmation}</p>}
         </div>
         <div className="mb-3">
           <label className="form-label">Age</label>
@@ -115,6 +149,7 @@ const Signup = () => {
             onChange={formik.handleChange}
             value={formik.values.age}
           />
+          {formik.errors.age && <p>{formik.errors.age}</p>}
         </div>
         <button type="submit" className="btn btn-primary">Submit</button>
       </form>
