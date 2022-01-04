@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import Admin from './pages/Admin'
 import Login from './pages/Login'
+import Signup from './pages/Signup'
 import NotFound from'./pages/NotFound'
 
 const App = () => {
@@ -13,7 +14,8 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Login/>}/>
-          <Route exact path="/admin" element={<Admin />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
