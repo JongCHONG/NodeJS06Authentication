@@ -1,4 +1,5 @@
 const users = require("../users.json")
+//verifyUser pose un problem il faut faire fs readfile, check la correction
 
 const verifyUser = (req, res, next) => {
   console.log(req.user);

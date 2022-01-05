@@ -80,7 +80,7 @@ const Signup = () => {
       age: Yup.string()
         .required("Age est requis")
     }),
-		validateOnChange: false
+		validateOnChange: false //permet de afficher les erreurs seulement quand on submit
   })
 
   console.log(formik.values)
